@@ -13,7 +13,10 @@ core-check-update:
 	lando wp --path=wordpress/ core check-update
 
 dry-run:
-	lando wp --path=$(WP_PATH) plugin update --dry-run --all > logs/dry-run_$(DATE).txt
+	echo -e "Update del día $(shell date +\%Y-\%m-\%d) \n" > logs/update_$(DATE).txt
+	lando wp --path=$(WP_PATH) plugin update --dry-run --all >> logs/update_$(DATE).txt
+	lando wp --path=$(WP_PATH) theme update --all >> logs/update_$(DATE).txt
+	lando wp --path=$(WP_PATH) core check-update >> logs/update_$(DATE).txt
 
 backup:
 	lando wp --path=$(WP_PATH) db export backup.sql
@@ -25,6 +28,8 @@ restore-backup:
 
 update-all:
 	lando wp --path=$(WP_PATH) plugin update --all || $(MAKE) restore-backup
+	lando wp --path=$(WP_PATH) theme update --all || $(MAKE) restore-backup
+	lando wp --path=$(WP_PATH) core || $(MAKE) restore-backup
 
 update: dry-run backup update-all db-export
 	git add .
