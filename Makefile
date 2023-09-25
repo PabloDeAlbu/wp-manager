@@ -20,6 +20,7 @@ backup:
 
 restore-backup:
 	lando wp --path=$(WP_PATH) db import backup.sql
+	git checkout -- .
 	@exit 1
 
 update-all:
