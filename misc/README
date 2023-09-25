@@ -4,7 +4,7 @@ mkdir multisitio-rio20 && cd multisitio-rio20
 # Initialize a wordpress recipe using the latest WordPress version
 lando init \
   --source remote \
-  --remote-url https://wordpress.org/latest.tar.gz \
+  --remote-url https://wordpress.org/wordpress-6.1.zip \
   --recipe wordpress \
   --webroot wordpress \
   --name multisitio-rio20
