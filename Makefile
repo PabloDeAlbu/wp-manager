@@ -15,10 +15,13 @@ core-check-update:
 dry-run:
 	lando wp --path=$(WP_PATH) plugin update --all
 
-db-import:
-	lando wp --path=$(WP_PATH) db import $(dump)
+restore-backup:
+	lando wp --path=$(WP_PATH) db import $(DUMP_DIR)/$(WP_PATH)-$(DATE).sql
 
-update: dry-run backup
+update-all:
+	lando wp --path=$(WP_PATH) plugin update --all || $(MAKE) restore-backup
+
+update: dry-run backup update-all
 	git add .
 	git commit -m "update $(DATE)"
 	git push
